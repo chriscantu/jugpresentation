@@ -1,0 +1,19 @@
+<plugin name='movie-domain' version='0.1' grailsVersion='1.3.3 &gt; *'>
+  <author>Your name</author>
+  <title>Plugin summary/headline</title>
+  <description>\
+Brief description of the plugin.
+</description>
+  <documentation>http://grails.org/plugin/movie-domain</documentation>
+  <resources>
+    <resource>BuildConfig</resource>
+    <resource>Config</resource>
+    <resource>DataSource</resource>
+    <resource>UrlMappings</resource>
+    <resource>com.rackspace.Genre</resource>
+    <resource>com.rackspace.Media</resource>
+    <resource>com.rackspace.Movie</resource>
+  </resources>
+  <dependencies />
+  <behavior />
+</plugin>
