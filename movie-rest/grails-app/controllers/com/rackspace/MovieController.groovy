@@ -6,7 +6,7 @@ class MovieController {
 
 	def show = {
 		if (params.id && Movie.exists(params.id)) {
-			def m = Movie.get(id)
+			def m = Movie.get(params.id)
 			render m as JSON
 		} else {
 			render Movie.list() as JSON
