@@ -1,6 +1,7 @@
 package com.rackspace
 
 import grails.converters.*
+import javax.servlet.http.*
 
 class MovieController {
 
@@ -29,9 +30,10 @@ class MovieController {
 			media: Media.get(params.media), year: new Date(year: params.year as Integer), rating: params.rating)
 			
 		if (m.validate() && m.save()) {
-			render "$m created successfully" 
+			response.status = HttpServletResponse.SC_CREATED
+			render("Movie successfully created")
 		} else {
-			println "${m.errors}"
+			response.status = HttpServletResponse.SC_BAD_REQUEST
 			render "Error creating movie"
 		}
 	}
