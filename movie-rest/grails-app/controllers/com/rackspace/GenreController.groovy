@@ -18,17 +18,16 @@ class GenreController {
 			def m = Genre.get(params.id)
 			m.properties = params
 			m.save()
-			render "$m updated successfully" as JSON
+			render "$m updated successfully"
 		} else {
-			render "No such genre" as JSON
+			render "No such genre"
 		}
 	}
 	
 	def save = {
 		def m = new Genre(params)
-		println "xxxxxx $params"
 		if (m.validate() && m.save()) {
-			render "$m created successfully" as JSON
+			render "$m created successfully" 
 		} else {
 			render "Error creating genre"
 		}
@@ -38,9 +37,9 @@ class GenreController {
 		def m = Genre.get(params.id)
 		
 		if (m.delete()) {
-			render "Genre deleted successfully" as JSON
+			render "Genre deleted successfully"
 		} else {
-			render "Unable to delete genre" as JSON
+			render "Unable to delete genre"
 		}
 	}
 }

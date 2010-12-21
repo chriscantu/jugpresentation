@@ -18,9 +18,9 @@ class MediaController {
 			def m = Media.get(params.id)
 			m.properties = params
 			m.save()
-			render "$m updated successfully" as JSON
+			render "$m updated successfully"
 		} else {
-			render "No such media" as JSON
+			render "No such media"
 		}
 	}
 	
@@ -28,7 +28,7 @@ class MediaController {
 		def m = new Media(params)
 		println "xxxxxx $params"
 		if (m.validate() && m.save()) {
-			render "$m created successfully" as JSON
+			render "$m created successfully"
 		} else {
 			render "Error creating media"
 		}
@@ -38,9 +38,9 @@ class MediaController {
 		def m = Media.get(params.id)
 		
 		if (m.delete()) {
-			render "Media deleted successfully" as JSON
+			render "Media deleted successfully" 
 		} else {
-			render "Unable to delete media" as JSON
+			render "Unable to delete media"
 		}
 	}
 }
