@@ -10,4 +10,5 @@ stacktrace.log
 */web-app/WEB-INF/classes
 *.DS_Store
 */*.class
-*/grails-movie-domain-*.zip
+movie-domain/grails-movie-domain-0.1.zip
+movie-rest/target/*
