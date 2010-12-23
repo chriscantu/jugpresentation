@@ -4,9 +4,10 @@
 .settings
 eclipse
 stacktrace.log
-*/target
-*/plugins
+*/*/target
+*/*/plugins
 */web-app/plugins
 */web-app/WEB-INF/classes
 *.DS_Store
 */*.class
+*/grails-movie-domain-*.zip
