@@ -12,3 +12,5 @@ stacktrace.log
 */*.class
 movie-domain/grails-movie-domain-0.1.zip
 movie-rest/target/*
+moviestore/target/*
+movie-domain/target/*
