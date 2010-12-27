@@ -48,9 +48,9 @@
                         
                             <td>${movieInstance.year}</td>
                         
-                            <td>${movieInstance.genre}</td>
+                            <td>${movieInstance.genre.type}</td>
                         
-                            <td>${movieInstance.media}</td>
+                            <td>${movieInstance.media.type}</td>
                         
                         </tr>
                     </g:each>
