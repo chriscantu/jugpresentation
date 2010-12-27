@@ -15,7 +15,7 @@ class MovieService {
 		JSON.parse(response)
 	}
 	
-	def show(id){
+	def get(id){
 		def response 
 		withRest(uri: restEndpoint){
 			response = get(path:"movie/$id")?.data.toString()

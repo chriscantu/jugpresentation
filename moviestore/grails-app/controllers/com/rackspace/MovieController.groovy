@@ -13,6 +13,6 @@ class MovieController {
 	}
 	
 	def show = {
-		[movieInstance: movieService.show(params.id)]
+		[movieInstance: movieService.get(params.id)]
 	}
 }
