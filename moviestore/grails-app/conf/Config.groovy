@@ -44,6 +44,9 @@ grails.logging.jul.usebridge = true
 // packages to include in Spring bean scanning
 grails.spring.bean.packages = []
 
+movie.rest.service = "http://localhost:8081/movie-rest/"
+grails.rest.injectInto = ["Controller", "Service"]
+
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
