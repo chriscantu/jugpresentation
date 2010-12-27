@@ -9,6 +9,10 @@ class MovieController {
 	def list = {
 		def movies = movieService.listMovies()
 		
-		[movieInstances: movies, totalInstances: movies.count()]
+		[movieInstanceList: movies, movieInstanceTotal: movies.count()]
+	}
+	
+	def show = {
+		[movieInstance: movieService.show(params.id)]
 	}
 }
