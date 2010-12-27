@@ -1,16 +1,17 @@
 package com.rackspace
 
-import grails.converters.*
+import grails.converters.deep.*
 import javax.servlet.http.*
 
 class MovieController {
-
+	
 	def show = {
 		if (params.id && Movie.exists(params.id)) {
 			def m = Movie.get(params.id)
-			render m as JSON
+			render(contentType: "application/json", text: m as JSON)
 		} else {
-			render Movie.list() as JSON
+			def list = Movie.list() 
+			render(contentType: "application/json", text: list as JSON)
 		}
 	}
 	
