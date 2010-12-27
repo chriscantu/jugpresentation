@@ -53,14 +53,14 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="movie.genre.label" default="Genre" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="genre" action="show" id="${movieInstance?.genre?.id}">${movieInstance?.genre?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value"><g:link controller="genre" action="show" id="${movieInstance?.genre?.id}">${movieInstance?.genre?.type}</g:link></td>
                             
                         </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="movie.media.label" default="Media" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="media" action="show" id="${movieInstance?.media?.id}">${movieInstance?.media?.encodeAsHTML()}</g:link></td>                            
+                            <td valign="top" class="value"><g:link controller="media" action="show" id="${movieInstance?.media?.id}">${movieInstance?.media?.type}</g:link></td>                            
                         </tr>
                     </tbody>
                 </table>
