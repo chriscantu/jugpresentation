@@ -35,7 +35,7 @@
                                 <td valign="top" class="name">
                                   <label for="title"><g:message code="movie.title.label" default="Title" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: movieInstance, field: 'title', 'errors')}">
+                                <td valign="top" class="value">
                                     <g:textField name="title" maxlength="100" value="${movieInstance?.title}" />
                                 </td>
                             </tr>
@@ -44,7 +44,7 @@
                                 <td valign="top" class="name">
                                   <label for="rating"><g:message code="movie.rating.label" default="Rating" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: movieInstance, field: 'rating', 'errors')}">
+                                <td valign="top" class="value">
                                     <g:textField name="rating" value="${fieldValue(bean: movieInstance, field: 'rating')}" />
                                 </td>
                             </tr>
@@ -53,7 +53,7 @@
                                 <td valign="top" class="name">
                                   <label for="year"><g:message code="movie.year.label" default="Year" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: movieInstance, field: 'year', 'errors')}">
+                                <td valign="top" class="value">
                                     <g:textField name="year" value="${fieldValue(bean: movieInstance, field: 'year')}" />
                                 </td>
                             </tr>
@@ -62,7 +62,7 @@
                                 <td valign="top" class="name">
                                   <label for="genre"><g:message code="movie.genre.label" default="Genre" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: movieInstance, field: 'genre', 'errors')}">
+                                <td valign="top" class="value">
                                     <g:select name="genre.id" from="${com.rackspace.Genre.list()}" optionKey="id" value="${movieInstance?.genre?.id}"  />
                                 </td>
                             </tr>
@@ -71,7 +71,7 @@
                                 <td valign="top" class="name">
                                   <label for="media"><g:message code="movie.media.label" default="Media" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: movieInstance, field: 'media', 'errors')}">
+                                <td valign="top" class="value">
                                     <g:select name="media.id" from="${com.rackspace.Media.list()}" optionKey="id" value="${movieInstance?.media?.id}"  />
                                 </td>
                             </tr>
@@ -80,7 +80,7 @@
                                 <td valign="top" class="name">
                                   <label for="genreId"><g:message code="movie.genreId.label" default="Genre Id" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: movieInstance, field: 'genreId', 'errors')}">
+                                <td valign="top" class="value">
                                     <g:textField name="genreId" value="${fieldValue(bean: movieInstance, field: 'genreId')}" />
                                 </td>
                             </tr>
@@ -89,7 +89,7 @@
                                 <td valign="top" class="name">
                                   <label for="mediaId"><g:message code="movie.mediaId.label" default="Media Id" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: movieInstance, field: 'mediaId', 'errors')}">
+                                <td valign="top" class="value">
                                     <g:textField name="mediaId" value="${fieldValue(bean: movieInstance, field: 'mediaId')}" />
                                 </td>
                             </tr>

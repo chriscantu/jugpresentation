@@ -12,7 +12,26 @@ class MovieController {
 		[movieInstanceList: movies, movieInstanceTotal: movies.count()]
 	}
 	
-	def show = {
+	def show = {		
 		[movieInstance: movieService.get(params.id)]
+	}
+	
+	def edit = {
+		[movieInstance: movieService.get(params.id)]
+	}
+	
+	def update = {
+		movieService.update(params)
+		redirect(action: show, id: params.id)
+	}
+	
+	def delete = {
+		movieService.delete(params.id)
+		redirect(action: list)
+	}
+
+	def save = {
+		def movie = movieService.save(params)
+		redirect(action: show, id: movie.id)
 	}
 }
