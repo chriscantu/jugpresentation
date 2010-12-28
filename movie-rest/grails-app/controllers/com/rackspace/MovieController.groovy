@@ -38,13 +38,21 @@ class MovieController {
 	}
 	
 	def save = {
-		def m = new Movie(params)
-		m.mediaId = params.mediaId
-		m.genreId = params.genreId
+		def m = new Movie()
+		println " params: ${params}"
+		
+		if(params.title){
+			m.properties = params
+			m.genreId = params.genreId
+			m.mediaId = params.mediaId
+			
+		} else {
+			m.properties = request.JSON
+		}
 
 		if (m.validate() && m.save()) {
 			response.status = HttpServletResponse.SC_CREATED
-			render("Movie successfully created")
+			render(contentType: "application/json", text: m as JSON)
 		} else {
 			response.status = HttpServletResponse.SC_BAD_REQUEST
 			render "Error creating movie - Error(s): ${m.errors}"
