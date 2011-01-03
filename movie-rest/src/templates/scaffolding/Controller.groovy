@@ -9,7 +9,13 @@ class ${className}Controller {
 		if (params.id && ${className}.exists(params.id)) {
 			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_OK) { ${className}.get(params.id) }
 		} else {
-			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_OK) { ${className}.list(params) }
+			params.max = Math.min(params.max ? params.int('max') : 10, 100)
+			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_OK) { 
+				[
+					total: ${className}.count(),
+					list: ${className}.list(params)
+				]
+			}
 		}
 	}
 
@@ -31,13 +37,9 @@ class ${className}Controller {
 	
 	def save = {
 		def ${propertyName} = new ${className}()
-		
-		${propertyName}.properties = params
-		
-		if (!${propertyName}.validate()) {
-			${propertyName}.properties = request.JSON
-		}
-		
+
+		${propertyName}.properties = request.JSON
+
 		if (${propertyName}.validate() && ${propertyName}.save()) {
 			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_CREATED) { ${propertyName} }
 		} else {
