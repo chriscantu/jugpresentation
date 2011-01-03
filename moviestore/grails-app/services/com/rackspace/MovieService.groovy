@@ -8,10 +8,10 @@ class MovieService {
     static transactional = false
 	static restEndpoint = "http://localhost:8081/movie-rest/"
 
-	def listMovies() {
+	def listMovies(params) {
 		def response
 		withRest(uri: restEndpoint){
-			response = get(path:"movie").data.toString()
+			response = get(path:"movie", params: params).data.toString()
 		}
 		JSON.parse(response)
 	}
