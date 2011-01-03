@@ -6,10 +6,14 @@ class ${className}Controller {
     static allowedMethods = [show: "GET", update: "PUT", delete: "DELETE", save: "POST"]
 
     def show = {
-		if (params.id && ${className}.exists(params.id)) {
-			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_OK) { ${className}.get(params.id) }
+		if (params.id) {
+			if(${className}.exists(params.id)) {
+				render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_OK) { ${className}.get(params.id) }
+			} else {
+				render(text:"No such entity", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
+			}
 		} else {
-			params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		
 			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_OK) { 
 				[
 					total: ${className}.count(),
