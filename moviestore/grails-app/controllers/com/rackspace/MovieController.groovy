@@ -7,12 +7,11 @@ class MovieController {
     def scaffold = true
 
 	def list = {
-		def movies = movieService.listMovies()
-		
-		[movieInstanceList: movies, movieInstanceTotal: movies.count()]
+		def movies = movieService.listMovies(params)
+		[movieInstanceList: movies.list, movieInstanceTotal: movies.total]
 	}
 	
-	def show = {		
+	def show = {
 		[movieInstance: movieService.get(params.id)]
 	}
 	
