@@ -7,11 +7,9 @@ class MediaController {
 	
 	def show = {
 		if (params.id && Media.exists(params.id)) {
-			def m = Media.get(params.id)
-			render(contentType: "application/json", text: m as JSON)
+			render(contentType:"application/json", builder:"json") { Media.get(params.id) }
 		} else {
-			def list = Media.list() 
-			render(contentType: "application/json", text: list as JSON)
+			render(contentType:"application/json", builder:"json") { Media.list() }
 		}
 	}
 	
@@ -23,39 +21,28 @@ class MediaController {
 			
 			def message
 			if (m.validate() && m.save()) {
-				response.status = HttpServletResponse.SC_OK
-				message = "$m updated successfully"
+				render(text:"$m updated successfully", status:HttpServletResponse.SC_OK, contentType:"application/json")
 			} else {
-				response.status = HttpServletResponse.SC_BAD_REQUEST
-				message = "$m - Error:  ${m.errors}"
+				render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_BAD_REQUEST) { m.errors }
 			}
-			
-			render message
 		} else {
-			response.status = HttpServletResponse.SC_NOT_FOUND
-			render "No such media"
+			render(text:"No such media", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
 		}
 	}
 	
 	def save = {
 		def m = new Media()
-		println " params: ${params}"
 		
 		if(params.title){
 			m.properties = params
-			m.genreId = params.genreId
-			m.mediaId = params.mediaId
-			
 		} else {
 			m.properties = request.JSON
 		}
 
 		if (m.validate() && m.save()) {
-			response.status = HttpServletResponse.SC_CREATED
-			render(contentType: "application/json", text: m as JSON)
+			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_CREATED) { m }
 		} else {
-			response.status = HttpServletResponse.SC_BAD_REQUEST
-			render "Error creating media - Error(s): ${m.errors}"
+			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_BAD_REQUEST) { m.errors }
 		}
 	}
 	
@@ -63,10 +50,9 @@ class MediaController {
 		def m = Media.get(params.id)
 		if (m) {
 			m.delete()
-			render "Media deleted successfully"
+			render(text:"Media deleted successfully", status:HttpServletResponse.SC_OK, contentType:"application/json")
 		} else {
-			response.status = HttpServletResponse.SC_NOT_FOUND
-			render "Unable to delete media"
+			render(text:"No such media", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
 		}
 	}
 }
