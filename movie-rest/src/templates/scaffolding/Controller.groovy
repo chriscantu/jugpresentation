@@ -13,7 +13,7 @@ class ${className}Controller {
 				render(text:"No such entity", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
 			}
 		} else {
-		
+			params.max = Math.min(params.max ? params.int('max') : 10, 100)
 			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_OK) { 
 				[
 					total: ${className}.count(),
