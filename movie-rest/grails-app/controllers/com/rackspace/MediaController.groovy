@@ -1,45 +1,71 @@
 package com.rackspace
 
-import grails.converters.*
+import grails.converters.deep.*
+import javax.servlet.http.*
 
 class MediaController {
-
+	
 	def show = {
 		if (params.id && Media.exists(params.id)) {
-			def m = Media.get(id)
-			render m as JSON
+			def m = Media.get(params.id)
+			render(contentType: "application/json", text: m as JSON)
 		} else {
-			render Media.list() as JSON
+			def list = Media.list() 
+			render(contentType: "application/json", text: list as JSON)
 		}
 	}
 	
 	def update = {
-		if (params.id && Media.exists(params.id)) {
-			def m = Media.get(params.id)
-			m.properties = params
-			m.save()
-			render "$m updated successfully"
+		def m = Media.get(params.id)
+		
+		if (m) {
+			m.properties = request.JSON
+			
+			def message
+			if (m.validate() && m.save()) {
+				response.status = HttpServletResponse.SC_OK
+				message = "$m updated successfully"
+			} else {
+				response.status = HttpServletResponse.SC_BAD_REQUEST
+				message = "$m - Error:  ${m.errors}"
+			}
+			
+			render message
 		} else {
+			response.status = HttpServletResponse.SC_NOT_FOUND
 			render "No such media"
 		}
 	}
 	
 	def save = {
-		def m = new Media(params)
-		println "xxxxxx $params"
-		if (m.validate() && m.save()) {
-			render "$m created successfully"
+		def m = new Media()
+		println " params: ${params}"
+		
+		if(params.title){
+			m.properties = params
+			m.genreId = params.genreId
+			m.mediaId = params.mediaId
+			
 		} else {
-			render "Error creating media"
+			m.properties = request.JSON
+		}
+
+		if (m.validate() && m.save()) {
+			response.status = HttpServletResponse.SC_CREATED
+			render(contentType: "application/json", text: m as JSON)
+		} else {
+			response.status = HttpServletResponse.SC_BAD_REQUEST
+			render "Error creating media - Error(s): ${m.errors}"
 		}
 	}
 	
 	def delete = {
 		def m = Media.get(params.id)
-		
-		if (m.delete()) {
-			render "Media deleted successfully" 
+		if (m) {
+			m.delete()
+			render "Media deleted successfully"
 		} else {
+			response.status = HttpServletResponse.SC_NOT_FOUND
 			render "Unable to delete media"
 		}
 	}
