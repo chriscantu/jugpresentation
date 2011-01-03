@@ -1,45 +1,60 @@
 package com.rackspace
 
-import grails.converters.*
+import grails.converters.deep.*
+import javax.servlet.http.*
 
 class GenreController {
 
-	def show = {
+    static allowedMethods = [show: "GET", update: "PUT", delete: "DELETE", save: "POST"]
+
+    def show = {
 		if (params.id && Genre.exists(params.id)) {
-			def m = Genre.get(id)
-			render m as JSON
+			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_OK) { Genre.get(params.id) }
 		} else {
-			render Genre.list() as JSON
+			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_OK) { Genre.list(params) }
 		}
 	}
-	
+
 	def update = {
-		if (params.id && Genre.exists(params.id)) {
-			def m = Genre.get(params.id)
-			m.properties = params
-			m.save()
-			render "$m updated successfully"
+		def genreInstance = Genre.get(params.id)
+		
+		genreInstance.properties = request.JSON
+		
+		if (genreInstance) {
+			if (genreInstance.validate() && genreInstance.save()) {
+				render(text:"Updated successfully", status:HttpServletResponse.SC_OK, contentType:"application/json")
+			} else {
+				render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_BAD_REQUEST) { genreInstance.errors }
+			}
 		} else {
-			render "No such genre"
+			render(text:"No such entity", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
 		}
 	}
 	
 	def save = {
-		def m = new Genre(params)
-		if (m.validate() && m.save()) {
-			render "$m created successfully" 
+		def genreInstance = new Genre()
+		
+		genreInstance.properties = params
+		
+		if (!genreInstance.validate()) {
+			genreInstance.properties = request.JSON
+		}
+		
+		if (genreInstance.validate() && genreInstance.save()) {
+			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_CREATED) { genreInstance }
 		} else {
-			render "Error creating genre"
+			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_BAD_REQUEST) { genreInstance.errors }
 		}
 	}
 	
 	def delete = {
-		def m = Genre.get(params.id)
+		def genreInstance = Genre.get(params.id)
 		
-		if (m.delete()) {
-			render "Genre deleted successfully"
+		if (genreInstance) {
+			genreInstance.delete()
+			render(text:"Delete successful", status:HttpServletResponse.SC_OK, contentType:"application/json")
 		} else {
-			render "Unable to delete genre"
+			render(text:"No such entity", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
 		}
 	}
 }
