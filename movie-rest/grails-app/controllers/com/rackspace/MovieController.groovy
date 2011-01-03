@@ -9,7 +9,13 @@ class MovieController {
 		if (params.id && Movie.exists(params.id)) {
 			render(contentType:"application/json", builder:"json") { Movie.get(params.id) }
 		} else {
-			render(contentType:"application/json", builder:"json") { Movie.list() }
+			params.max = Math.min(params.max ? params.int('max') : 10, 100)
+			render(contentType:"application/json", builder:"json") {
+				[
+					total: Movie.count(),
+					list: Movie.list(params)
+				]
+			}
 		}
 	}
 	
@@ -32,14 +38,7 @@ class MovieController {
 	def save = {
 		def m = new Movie()
 		
-		if(params.title){
-			m.properties = params
-			m.genreId = params.genreId
-			m.mediaId = params.mediaId
-			
-		} else {
-			m.properties = request.JSON
-		}
+		m.properties = request.JSON
 
 		if (m.validate() && m.save()) {
 			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_CREATED) { m }
