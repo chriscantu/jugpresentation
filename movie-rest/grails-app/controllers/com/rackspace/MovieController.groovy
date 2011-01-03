@@ -19,7 +19,6 @@ class MovieController {
 		if (m) {
 			m.properties = request.JSON
 			
-			def message
 			if (m.validate() && m.save()) {
 				render(text:"$m updated successfully", status:HttpServletResponse.SC_OK, contentType:"application/json")
 			} else {
