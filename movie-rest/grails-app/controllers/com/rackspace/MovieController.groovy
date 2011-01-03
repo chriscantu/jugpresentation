@@ -7,11 +7,9 @@ class MovieController {
 	
 	def show = {
 		if (params.id && Movie.exists(params.id)) {
-			def m = Movie.get(params.id)
-			render(contentType: "application/json", text: m as JSON)
+			render(contentType:"application/json", builder:"json") { Movie.get(params.id) }
 		} else {
-			def list = Movie.list() 
-			render(contentType: "application/json", text: list as JSON)
+			render(contentType:"application/json", builder:"json") { Movie.list() }
 		}
 	}
 	
@@ -23,23 +21,17 @@ class MovieController {
 			
 			def message
 			if (m.validate() && m.save()) {
-				response.status = HttpServletResponse.SC_OK
-				message = "$m updated successfully"
+				render(text:"$m updated successfully", status:HttpServletResponse.SC_OK, contentType:"application/json")
 			} else {
-				response.status = HttpServletResponse.SC_BAD_REQUEST
-				message = "$m - Error:  ${m.errors}"
+				render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_BAD_REQUEST) { m.errors }
 			}
-			
-			render message
 		} else {
-			response.status = HttpServletResponse.SC_NOT_FOUND
-			render "No such movie"
+			render(text:"No such movie", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
 		}
 	}
 	
 	def save = {
 		def m = new Movie()
-		println " params: ${params}"
 		
 		if(params.title){
 			m.properties = params
@@ -51,11 +43,9 @@ class MovieController {
 		}
 
 		if (m.validate() && m.save()) {
-			response.status = HttpServletResponse.SC_CREATED
-			render(contentType: "application/json", text: m as JSON)
+			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_CREATED) { m }
 		} else {
-			response.status = HttpServletResponse.SC_BAD_REQUEST
-			render "Error creating movie - Error(s): ${m.errors}"
+			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_BAD_REQUEST) { m.errors }
 		}
 	}
 	
@@ -63,10 +53,9 @@ class MovieController {
 		def m = Movie.get(params.id)
 		if (m) {
 			m.delete()
-			render "Movie deleted successfully"
+			render(text:"Movie deleted successfully", status:HttpServletResponse.SC_OK, contentType:"application/json")
 		} else {
-			response.status = HttpServletResponse.SC_NOT_FOUND
-			render "Unable to delete movie"
+			render(text:"No such movie", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
 		}
 	}
 }
