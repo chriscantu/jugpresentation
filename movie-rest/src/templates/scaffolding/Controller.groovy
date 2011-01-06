@@ -1,4 +1,5 @@
-<%=packageName ? "package ${packageName}\n\n" : ''%>import grails.converters.deep.*
+<%=packageName ? "package ${packageName}\n" : ''%>
+import grails.converters.deep.*
 import javax.servlet.http.*
 
 class ${className}Controller {

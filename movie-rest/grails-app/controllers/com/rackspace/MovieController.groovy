@@ -4,13 +4,19 @@ import grails.converters.deep.*
 import javax.servlet.http.*
 
 class MovieController {
-	
-	def show = {
-		if (params.id && Movie.exists(params.id)) {
-			render(contentType:"application/json", builder:"json") { Movie.get(params.id) }
+
+    static allowedMethods = [show: "GET", update: "PUT", delete: "DELETE", save: "POST"]
+
+    def show = {
+		if (params.id) {
+			if(Movie.exists(params.id)) {
+				render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_OK) { Movie.get(params.id) }
+			} else {
+				render(text:"No such entity", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
+			}
 		} else {
 			params.max = Math.min(params.max ? params.int('max') : 10, 100)
-			render(contentType:"application/json", builder:"json") {
+			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_OK) { 
 				[
 					total: Movie.count(),
 					list: Movie.list(params)
@@ -18,42 +24,43 @@ class MovieController {
 			}
 		}
 	}
-	
+
 	def update = {
-		def m = Movie.get(params.id)
+		def movieInstance = Movie.get(params.id)
 		
-		if (m) {
-			m.properties = request.JSON
-			
-			if (m.validate() && m.save()) {
-				render(text:"$m updated successfully", status:HttpServletResponse.SC_OK, contentType:"application/json")
+		movieInstance.properties = request.JSON
+		
+		if (movieInstance) {
+			if (movieInstance.validate() && movieInstance.save()) {
+				render(text:"Updated successfully", status:HttpServletResponse.SC_OK, contentType:"application/json")
 			} else {
-				render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_BAD_REQUEST) { m.errors }
+				render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_BAD_REQUEST) { movieInstance.errors }
 			}
 		} else {
-			render(text:"No such movie", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
+			render(text:"No such entity", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
 		}
 	}
 	
 	def save = {
-		def m = new Movie()
-		
-		m.properties = request.JSON
+		def movieInstance = new Movie()
 
-		if (m.validate() && m.save()) {
-			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_CREATED) { m }
+		movieInstance.properties = request.JSON
+
+		if (movieInstance.validate() && movieInstance.save()) {
+			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_CREATED) { movieInstance }
 		} else {
-			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_BAD_REQUEST) { m.errors }
+			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_BAD_REQUEST) { movieInstance.errors }
 		}
 	}
 	
 	def delete = {
-		def m = Movie.get(params.id)
-		if (m) {
-			m.delete()
-			render(text:"Movie deleted successfully", status:HttpServletResponse.SC_OK, contentType:"application/json")
+		def movieInstance = Movie.get(params.id)
+		
+		if (movieInstance) {
+			movieInstance.delete()
+			render(text:"Delete successful", status:HttpServletResponse.SC_OK, contentType:"application/json")
 		} else {
-			render(text:"No such movie", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
+			render(text:"No such entity", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
 		}
 	}
 }
