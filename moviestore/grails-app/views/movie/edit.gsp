@@ -45,7 +45,7 @@
                                   <label for="rating"><g:message code="movie.rating.label" default="Rating" /></label>
                                 </td>
                                 <td valign="top" class="value">
-                                    <g:textField name="rating" value="${fieldValue(bean: movieInstance, field: 'rating')}" />
+                                    <g:textField name="rating" value="${movieInstance?.rating}" />
                                 </td>
                             </tr>
                         
@@ -54,7 +54,7 @@
                                   <label for="year"><g:message code="movie.year.label" default="Year" /></label>
                                 </td>
                                 <td valign="top" class="value">
-                                    <g:textField name="year" value="${fieldValue(bean: movieInstance, field: 'year')}" />
+                                    <g:textField name="year" value="${movieInstance?.year}" />
                                 </td>
                             </tr>
                         
@@ -73,24 +73,6 @@
                                 </td>
                                 <td valign="top" class="value">
                                     <g:select name="media.id" from="${com.rackspace.Media.list()}" optionKey="id" value="${movieInstance?.media?.id}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="genreId"><g:message code="movie.genreId.label" default="Genre Id" /></label>
-                                </td>
-                                <td valign="top" class="value">
-                                    <g:textField name="genreId" value="${fieldValue(bean: movieInstance, field: 'genreId')}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="mediaId"><g:message code="movie.mediaId.label" default="Media Id" /></label>
-                                </td>
-                                <td valign="top" class="value">
-                                    <g:textField name="mediaId" value="${fieldValue(bean: movieInstance, field: 'mediaId')}" />
                                 </td>
                             </tr>
                         
