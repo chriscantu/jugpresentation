@@ -9,7 +9,7 @@ class ${className}Controller {
     def show = {
 		if (params.id) {
 			if(${className}.exists(params.id)) {
-				render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_OK) { ${className}.get(params.id) }
+				render ${className}.get(params.id)
 			} else {
 				render(text:"No such entity", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
 			}
