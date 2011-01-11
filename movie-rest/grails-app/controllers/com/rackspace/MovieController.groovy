@@ -10,7 +10,7 @@ class MovieController {
     def show = {
 		if (params.id) {
 			if(Movie.exists(params.id)) {
-				render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_OK) { Movie.get(params.id) }
+				render Movie.get(params.id) as JSON
 			} else {
 				render(text:"No such entity", status:HttpServletResponse.SC_NOT_FOUND, contentType:"application/json")
 			}
@@ -45,8 +45,6 @@ class MovieController {
 		def movieInstance = new Movie()
 
 		movieInstance.properties = request.JSON
-        movieInstance.genreId = request.JSON.genreId
-        movieInstance.mediaId = request.JSON.mediaId
 
 		if (movieInstance.validate() && movieInstance.save()) {
 			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_CREATED) { movieInstance }
