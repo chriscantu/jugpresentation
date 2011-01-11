@@ -45,6 +45,8 @@ class MovieController {
 		def movieInstance = new Movie()
 
 		movieInstance.properties = request.JSON
+        movieInstance.genreId = request.JSON.genreId
+        movieInstance.mediaId = request.JSON.mediaId
 
 		if (movieInstance.validate() && movieInstance.save()) {
 			render(contentType:"application/json", builder:"json", status:HttpServletResponse.SC_CREATED) { movieInstance }
