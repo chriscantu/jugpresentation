@@ -6,7 +6,7 @@ REQUIREMENTS:
 -------------
 
 * Java: 1.6 or above
-* Grails 1.3.3
+* Grails 1.3.7
 
 SETUP:
 ------
