@@ -4,8 +4,6 @@ class MovieController {
 	
 	def movieService
 
-    def scaffold = true
-
 	def list = {
 		def movies = movieService.listMovies(params)
 		[movieInstanceList: movies.list, movieInstanceTotal: movies.total]
